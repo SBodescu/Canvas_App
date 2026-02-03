@@ -4,4 +4,3 @@ export default class Shape {
         this.color = color;
     }
 }
-//# sourceMappingURL=shape.js.map

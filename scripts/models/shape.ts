@@ -7,5 +7,6 @@ export default abstract class Shape{
         this.point = point;
         this.color = color;
     }
+    abstract area():number;
     abstract draw(ctx: CanvasRenderingContext2D):void;
 }

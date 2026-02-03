@@ -13,4 +13,3 @@ export default class Square extends Shape {
         ctx.fillStyle = this.color;
     }
 }
-//# sourceMappingURL=square.js.map
