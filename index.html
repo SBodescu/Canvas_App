@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shapes Canvas App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="nav-bar">
+        <h1>Shapes Canvas Application</h1>
+        <button id="drawCircleBtn">Draw Circle</button>
+        <button id="drawSquareBtn">Draw Square</button>
+        <button id="drawTriangleBtn">Draw Triangle</button>
+        <button id="clearCanvas">Clear Canvas</button>
+    </nav>
+    <div class ="canvas-container">
+        <aside class="sidebar">
+            <h2>Instructions</h2>
+            <div id="shapeInfo">
+
+            </div>
+        </aside>
+        <canvas id="shapesCanvas" width="800" height="600"></canvas>
+        <aside class="sidebar">
+            <h2>Shape Info</h2>
+            <div id="shapeInfo">
+                <p>No shape drawn yet.</p>
+            </div>
+        </aside>
+    </div>
+    
+    <script type="module" src="scripts/app.js"></script>
+</body>
+<footer>
+
+</footer>
