@@ -20,4 +20,3 @@ export default class Triangle extends Shape {
         ctx.stroke();
     }
 }
-//# sourceMappingURL=triangle.js.map

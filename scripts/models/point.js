@@ -4,4 +4,3 @@ export default class Point {
         this.y = y;
     }
 }
-//# sourceMappingURL=point.js.map

@@ -8,11 +8,14 @@
 </head>
 <body>
     <nav class="nav-bar">
-        <h1>Shapes Canvas Application</h1>
-        <button id="drawCircleBtn">Draw Circle</button>
-        <button id="drawSquareBtn">Draw Square</button>
-        <button id="drawTriangleBtn">Draw Triangle</button>
-        <button id="clearCanvas">Clear Canvas</button>
+        <h1>Shapes Canvas</h1>
+        <div class="nav-buttons">
+            <button id="drawCircleBtn">Draw Circle</button>
+            <button id="drawSquareBtn">Draw Square</button>
+            <button id="drawTriangleBtn">Draw Triangle</button>
+            <button id="clearCanvas">Clear Canvas</button>
+        </div>
+        
     </nav>
     <div class ="canvas-container">
         <aside class="sidebar">
@@ -23,8 +26,8 @@
         </aside>
         <canvas id="shapesCanvas" width="800" height="600"></canvas>
         <aside class="sidebar">
-            <h2>Shape Info</h2>
-            <div id="shapeInfo">
+            <h2>Shapes and Canvas Info</h2>
+            <div id="generalInfo">
                 <p>No shape drawn yet.</p>
             </div>
         </aside>

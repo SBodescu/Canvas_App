@@ -15,4 +15,3 @@ export default class Circle extends Shape {
         ctx.stroke();
     }
 }
-//# sourceMappingURL=circle.js.map
