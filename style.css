@@ -1,0 +1,79 @@
+body {
+  background-color: #EAEFEF;
+}
+
+canvas {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #BFC9D1;
+  border-radius: 1rem;
+}
+
+.nav-bar {
+  background-color: #FF9B51;
+  padding: 10px;
+  border: 2px solid #25343F;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.nav-bar h1 {
+  color: #25343F;
+  font-family: "Arial", sans-serif;
+}
+.nav-bar button {
+  background-color: #BFC9D1;
+  color: #25343F;
+  border: 2px solid #25343F;
+  padding: 10px 20px;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+.nav-bar button:active {
+  transform: scale(0.95);
+}
+.nav-bar button.active {
+  background-color: #25343F;
+  color: #FF9B51;
+  border-color: #000;
+  font-weight: bold;
+}
+.nav-bar button:hover:not(.active) {
+  background-color: rgb(205.8363636364, 213.5181818182, 219.6636363636);
+}
+
+.canvas-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.canvas-container .sidebar {
+  width: 200px;
+  background-color: #FF9B51;
+  padding: 10px;
+  border: 2px solid #25343F;
+  border-radius: 1rem;
+}
+.canvas-container .sidebar h2 {
+  color: #25343F;
+  font-family: "Arial", sans-serif;
+  text-align: center;
+}
+.canvas-container .sidebar .shape-button {
+  width: 100%;
+  background-color: #BFC9D1;
+  color: #25343F;
+  border: 2px solid #25343F;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  font-size: 14px;
+}/*# sourceMappingURL=style.css.map */
