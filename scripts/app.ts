@@ -17,6 +17,7 @@ const shapeInfo = document.getElementById('shapeInfo') as HTMLDivElement;
 const generalInfo = document.getElementById('generalInfo') as HTMLDivElement;
 
 let currentShape: string | null = null;
+let selectedColor = '#FF9B51'
 
 let circleRadius = 30;
 let squareSide = 50;
@@ -63,11 +64,18 @@ function switchActiveButton(selectedBtn: HTMLButtonElement){
 }
 
 function createNumberInput(labelText: string, value: number, onChange?: (v:number)=>void){
-    const wrapper = document.createElement('div');
+    const numberInput = document.createElement('div');
     const color = document.createElement('label');
     color.textContent = "Color : ";
     const colorInput = document.createElement('input');
     colorInput.type = 'color';
+    colorInput.id = 'shapeColor';
+    colorInput.value = selectedColor
+    colorInput.style.width = "100%"; 
+    colorInput.style.height = "40px";
+    colorInput.addEventListener('input', ()=>{
+        selectedColor = colorInput.value;
+    });
     const label = document.createElement('label');
     label.textContent = labelText + ': ';
     const input = document.createElement('input');
@@ -79,9 +87,11 @@ function createNumberInput(labelText: string, value: number, onChange?: (v:numbe
         if (onChange) onChange(v);
         
     })
-    wrapper.appendChild(label);
-    wrapper.appendChild(input);
-    return wrapper;
+    numberInput.appendChild(color);
+    numberInput.appendChild(colorInput);
+    numberInput.appendChild(label);
+    numberInput.appendChild(input);
+    return numberInput;
 }
 
 function updateShapeInfoUI(){
@@ -183,6 +193,47 @@ function onClickCoords(canvas:HTMLCanvasElement, event: MouseEvent){
     return new Point(x,y)
 }
 
+function checkCollisions(shape1: Shape, shape2: Shape): boolean {
+    const r1 = shape1.getCollisionBox();
+    const r2 = shape2.getCollisionBox();
+    return (
+        r1.x < r2.x + r2.w &&
+        r1.x + r1.w > r2.x &&
+        r1.y < r2.y + r2.h &&
+        r1.y + r1.h > r2.y
+    );
+}
+
+function checkCollisionOnCanvas(shape: Shape): boolean{
+    const box = shape.getCollisionBox();
+    return(
+        box.x < 0 || box.y < 0 ||
+        box.x + box.w > canvas.width ||
+        box.y + box.h > canvas.height
+    )
+}
+
+function triggerError() {
+    canvas.classList.add('canvas-error');
+    setTimeout(() => canvas.classList.remove('canvas-error'), 400);
+}
+
+function redrawCanvas() {
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    shapes.forEach(shape => {
+        shape.draw(ctx);
+        const bounds = shape.getCollisionBox();
+        ctx.save();
+        ctx.strokeStyle = "rgba(255, 0, 0, 0.5)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(bounds.x, bounds.y, bounds.w, bounds.h);
+        ctx.restore();
+    });
+}
+
 canvas.addEventListener('click', (event: MouseEvent) => {
     if(!ctx) return;
     const point = onClickCoords(canvas, event);
@@ -190,28 +241,37 @@ canvas.addEventListener('click', (event: MouseEvent) => {
     console.log(numberOfCircles,numberOfSquares,numberOfTriangles);
     console.log(shapes);
     console.log(currentShape);
+
+    let nextShape : Shape | null = null;
     if(currentShape === 'triangle') {
-        const topY = point.y - (triangleHeight / 3);
-        const topPoint = new Point(point.x, topY);
-        const myTriangle = new Triangle(triangleBase, triangleHeight,'#FF9B51', topPoint);
-        myTriangle.draw(ctx);
-        numberOfTriangles += 1;
-        shapes.push(myTriangle);
-        updateGeneralInfo();
+        nextShape = new Triangle(triangleBase, triangleHeight,selectedColor, point);
     } else if(currentShape === 'square') {
         const topLeft = new Point(point.x - (squareSide/2), point.y - (squareSide/2));
-        const mySquare = new Square(squareSide,'#FF9B51', topLeft);
-        mySquare.draw(ctx);
-        numberOfSquares += 1;
-        shapes.push(mySquare);
-        updateGeneralInfo();
+        nextShape = new Square(squareSide,selectedColor, topLeft);
     } else if(currentShape === 'circle') {
-        const myCircle = new Circle(circleRadius,'#FF9B51', point);
-        myCircle.draw(ctx);
-        numberOfCircles += 1;
-        shapes.push(myCircle);
+       nextShape = new Circle(circleRadius,selectedColor, point);
+    }
+    if(nextShape){
+        const isOutOfCanvas = checkCollisionOnCanvas(nextShape);
+        const isColliding = shapes.some(existingShape => checkCollisions(nextShape,existingShape));
+        if(isColliding || isOutOfCanvas)
+        {
+            console.log("Collision triggered");
+            triggerError();
+            return
+        }
+        shapes.push(nextShape);
+        if(currentShape === 'triangle'){
+            numberOfTriangles++;
+        }
+        else if(currentShape === 'circle'){
+            numberOfCircles++;
+        }
+        else if(currentShape === 'square'){
+            numberOfSquares++;
+        }
+        redrawCanvas();
         updateGeneralInfo();
-
     }
 });
 updateShapeInfoUI();

@@ -19,4 +19,12 @@ export default class Triangle extends Shape {
         ctx.strokeStyle = "black";
         ctx.stroke();
     }
+    getCollisionBox() {
+        return {
+            x: this.point.x - (this.base / 2),
+            y: this.point.y,
+            h: this.height,
+            w: this.base
+        };
+    }
 }
