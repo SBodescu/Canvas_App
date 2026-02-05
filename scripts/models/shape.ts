@@ -10,4 +10,5 @@ export default abstract class Shape{
     abstract area():number;
     abstract draw(ctx: CanvasRenderingContext2D):void;
     abstract getCollisionBox(): { x : number, y: number, h: number, w: number};
+    abstract isInside(point: Point):boolean;
 }

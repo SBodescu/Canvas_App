@@ -27,4 +27,9 @@ export default class Triangle extends Shape {
             w: this.base
         };
     }
+    isInside(point) {
+        const box = this.getCollisionBox();
+        return (point.x >= box.x && point.x <= box.x + box.w &&
+            point.y >= box.y && point.y <= box.y + box.h);
+    }
 }

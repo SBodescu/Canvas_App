@@ -27,4 +27,11 @@ export default class Circle extends Shape{
             w: this.radius*2
         }
     }
+    isInside(point: Point): boolean {
+        const box = this.getCollisionBox();
+        return (
+            point.x >= box.x && point.x <= box.x + box.w &&
+            point.y >= box.y && point.y <= box.y + box.h
+        )
+    }
 }

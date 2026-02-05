@@ -17,6 +17,11 @@ const shapeInfo = document.getElementById('shapeInfo') as HTMLDivElement;
 const generalInfo = document.getElementById('generalInfo') as HTMLDivElement;
 
 let currentShape: string | null = null;
+let draggedShape: Shape | null = null;
+let isDragged: boolean = false;
+let wasDragging = false; 
+let posOffset = {x: 0, y: 0};
+
 let selectedColor = '#FF9B51'
 
 let circleRadius = 30;
@@ -225,22 +230,24 @@ function redrawCanvas() {
     
     shapes.forEach(shape => {
         shape.draw(ctx);
-        const bounds = shape.getCollisionBox();
-        ctx.save();
-        ctx.strokeStyle = "rgba(255, 0, 0, 0.5)";
-        ctx.lineWidth = 1;
-        ctx.strokeRect(bounds.x, bounds.y, bounds.w, bounds.h);
+        //const bounds = shape.getCollisionBox();
+        //ctx.save();
+        //ctx.strokeStyle = "rgba(255, 0, 0, 0.5)";
+        //ctx.lineWidth = 1;
+        //ctx.strokeRect(bounds.x, bounds.y, bounds.w, bounds.h);
         ctx.restore();
     });
 }
 
 canvas.addEventListener('click', (event: MouseEvent) => {
+    
+    if (wasDragging) {
+        wasDragging = false;
+        return;
+    }
+    
     if(!ctx) return;
     const point = onClickCoords(canvas, event);
-    
-    console.log(numberOfCircles,numberOfSquares,numberOfTriangles);
-    console.log(shapes);
-    console.log(currentShape);
 
     let nextShape : Shape | null = null;
     if(currentShape === 'triangle') {
@@ -274,6 +281,67 @@ canvas.addEventListener('click', (event: MouseEvent) => {
         updateGeneralInfo();
     }
 });
+
+let startDragPosition: Point | null = null; 
+
+canvas.addEventListener('mousedown',(event: MouseEvent) => {
+    const mousePos = onClickCoords(canvas,event);
+    wasDragging = false;
+    
+    for (let i = shapes.length - 1; i >= 0; i--) {
+        const shape = shapes[i];
+        if (shape?.isInside(mousePos)) {
+            isDragged = true;
+            draggedShape = shape;  
+            posOffset.x = mousePos.x - draggedShape.point.x;
+            posOffset.y = mousePos.y - draggedShape.point.y;
+            
+            startDragPosition = new Point(draggedShape.point.x, draggedShape.point.y);
+            return;
+        }
+    }
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (!isDragged || !draggedShape) return;
+
+    wasDragging = true;
+
+    const mousePos = onClickCoords(canvas, e);
+    
+    const newX = mousePos.x - posOffset.x;
+    const newY = mousePos.y - posOffset.y;
+    
+    draggedShape.point.x = newX;
+    draggedShape.point.y = newY;
+
+    const isColliding = shapes.some(s => {
+        if (!draggedShape) return false; 
+        return s !== draggedShape && checkCollisions(draggedShape, s);
+    });    
+    const isOutOfCanvas = checkCollisionOnCanvas(draggedShape);
+
+    if (isColliding || isOutOfCanvas) {
+        if (startDragPosition) {
+            draggedShape.point.x = startDragPosition.x;
+            draggedShape.point.y = startDragPosition.y;
+        }
+        triggerError();
+        isDragged = false;
+        draggedShape = null;
+        startDragPosition = null;
+    }
+
+    redrawCanvas();
+    updateGeneralInfo();
+});
+
+window.addEventListener('mouseup', () => {
+    isDragged = false;
+    draggedShape = null;
+    startDragPosition = null; 
+});
+
 updateShapeInfoUI();
 updateGeneralInfo();
 

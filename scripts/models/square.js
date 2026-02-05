@@ -20,4 +20,9 @@ export default class Square extends Shape {
             w: this.sideLength
         };
     }
+    isInside(point) {
+        const box = this.getCollisionBox();
+        return (point.x >= box.x && point.x <= box.x + box.w &&
+            point.y >= box.y && point.y <= box.y + box.h);
+    }
 }
