@@ -18,5 +18,13 @@ export default class Square extends Shape {
      ctx.strokeRect(this.point.x, this.point.y, this.sideLength, this.sideLength);
      ctx.fillStyle = this.color;
    }
+   getCollisionBox(): { x: number; y: number; h: number; w: number; } {
+     return {
+        x: this.point.x,
+        y: this.point.y,
+        h: this.sideLength,
+        w: this.sideLength
+     }
+   }
 
 }

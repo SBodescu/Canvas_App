@@ -19,4 +19,12 @@ export default class Circle extends Shape{
         ctx.fill();
         ctx.stroke();
     }
+    getCollisionBox(): { x: number; y: number; h: number; w: number; } {
+        return{
+            x: this.point.x - this.radius,
+            y: this.point.y - this.radius,
+            h: this.radius*2,
+            w: this.radius*2
+        }
+    }
 }
