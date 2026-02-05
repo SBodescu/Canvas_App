@@ -3,7 +3,7 @@
   "compilerOptions": {
     // File Layout
     "rootDir": "./scripts",
-    "outDir": "./scripts",
+    "outDir": "././javascript_files",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -43,5 +43,5 @@
     "skipLibCheck": true
   },
   "include": ["scripts/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules","javascript_files"]
 }
