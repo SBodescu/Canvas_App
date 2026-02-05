@@ -1,3 +1,0 @@
-function loadShape() {
-}
-export {};

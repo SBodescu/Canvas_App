@@ -1,0 +1,58 @@
+@use "variables" as *;
+
+.nav-bar {
+    width: 100%;
+    max-width: 1200px; 
+    min-height: 100px;
+    background-color: $background-elements-color;
+    padding: 1.5rem 2.5rem;
+    border: 4px solid $border-color;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    box-shadow: 10px 10px 0px $border-color;
+    margin-bottom: 3rem;
+    box-sizing: border-box;
+
+    h1 {
+        color: $border-color;
+        margin: 0;
+        font-size: clamp(1.5rem, 5vw, 2.2rem);
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    button {
+        background-color: $background-button-color;
+        color: $border-color;
+        border: 3px solid $border-color;
+        padding: 12px 28px;
+        border-radius: 1rem;
+        cursor: pointer;
+        font-weight: 800;
+        font-size: 1.1rem;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: #ffffff;
+            transform: translateY(-4px);
+            box-shadow: 4px 4px 0px $border-color;
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+
+        &.active {
+            background-color: $border-color;
+            color: $background-elements-color;
+            box-shadow: none;
+        }
+    }
+}
+
+
